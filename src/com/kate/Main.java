@@ -1,3 +1,4 @@
+//Kate Keil, project 2, to do list, 2/28/19
 package com.kate;
 
 import java.util.*;
@@ -5,92 +6,121 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        String title;
-        String description;
-        int priority;
-        int showChoice;
-        String yeetTask;
+        String toTitle = "";
+        String toDesc = "";
         String titleGet;
-        String newTitle;
-        String newDes;
-        int newPri;
-        int selection = 5;
+        String toPriority = "";
+        int personOption = 4;
 
-        Scanner titleIn = new Scanner(System.in);
-        Scanner descriptionIn = new Scanner(System.in);
-        Scanner priorityIn = new Scanner(System.in);
-        Scanner choice = new Scanner(System.in);
-        Scanner show = new Scanner(System.in);
-        Scanner remove = new Scanner(System.in);
+        Scanner title = new Scanner(System.in);
+        Scanner desc = new Scanner(System.in);
+        Scanner priority = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         Scanner get = new Scanner(System.in);
         Scanner newT = new Scanner(System.in);
         Scanner newD = new Scanner(System.in);
         Scanner newP = new Scanner(System.in);
+        Scanner show = new Scanner(System.in);
+        Scanner a = new Scanner(System.in);
 
-        HashMap<String, ToDo> info = new HashMap<>();
 
-        while (selection != 0){
+        Map<String, ToDo> info = new HashMap<>();
+        ToDo toDo = new ToDo(toTitle, toDesc, toPriority);
 
-            System.out.println("Welcome to your to-do list! What would you like to do?");
-            System.out.println("(1) Add a task");
-            System.out.println("(2) Remove a task");
-            System.out.println("(3) Edit a task");
-            System.out.println("(4) Show to-do list");
-            System.out.println("(0) Exit");
 
-            selection = choice.nextInt();
+        //task chooser
+        while (personOption != 0) {
+            System.out.println("What would you like to do?");
+            System.out.println("(1)- Add task. ");
+            System.out.println("(2)- Remove task. ");
+            System.out.println("(3)- Edit a task.");
+            System.out.println("(4)- View full to-do list.");
+            System.out.println("(0)- Exit ");
 
-            //Add a task
-            if (selection == 1){
-                System.out.println("What would you like the title to be?");
-                title = titleIn.nextLine();
-
-                System.out.println("What is a description of the task?");
-                description = descriptionIn.nextLine();
-
-                System.out.println("What is the priority of the task? (0-5 with 0 being lowest priority and 5 being the highest)");
-                priority = priorityIn.nextInt();
-
-                ToDo task = new ToDo(title, description, priority);
-
-                info.put(title, task);
+            //catch invalid inputs
+            while (!input.hasNextInt()) {
+                System.out.println("Invalid input\nPlease try again, enter an integer value:");
+                input.next();
             }
+            personOption = input.nextInt();
 
-            //Remove a task
-            if (selection == 2){
-                System.out.println("Enter the title of the task you want to remove.");
-                yeetTask = remove.nextLine();
+            if (personOption == 1) {
+                System.out.println("What is the task name?");
+                toTitle = title.nextLine();
 
-            }
+                System.out.println("Give a description of the task.");
+                toDesc = desc.nextLine();
 
-            //Edit a task
-            if (selection == 3){
-                System.out.println("Enter the title of the task you want to edit.");
-                titleGet = get.nextLine();
-                String val = info.get(titleGet).toString();
-                System.out.println("Enter a new title: ");
-                newTitle = newT.nextLine();
-                ToDo.;
-                System.out.println("Enter a new description: ");
-                newDes = newD.nextLine();
-                info.put(description, newDes);
-                System.out.println("Enter a new priority: ");
-                newPri = newP.nextInt();
-                info.put(priority, newPri);
-            }
-
-            //Show to-do list
-            if (selection == 4){
-                System.out.println("Would you like to (1)Show entire list or (2)Show all items under a specific priority level?");
-                showChoice = show.nextInt();
-                if (showChoice == 1){
-                    System.out.println(info.toString());
-            }
-
-                if (showChoice == 2){
-                    System.out.println("Enter the priority level you would like to show (0-5).");
+                System.out.println("Give the task a priority (0 being the lowest priority, 5 being the highest priority).");
+                toPriority = priority.nextLine();
+                boolean isInt = false;
+                while (!isInt) {
+                    try {
+                        Integer.parseInt(toPriority);
+                        isInt = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println(toPriority + " is not a valid integer. ");
+                        toPriority = priority.nextLine();
+                    }
+                    ToDo toDoo = new ToDo(toTitle, toDesc, toPriority);
+                    info.put(toTitle, toDoo);
                 }
 
+                //remove a task
+            } else if (personOption == 2) {
+                System.out.println("Enter a task name to remove it from the list.");
+                titleGet = get.nextLine();
+                info.remove(titleGet);
+                System.out.println(titleGet + " is now removed from the to-do list.");
+
+                //edit  a task
+            } else if (personOption == 3) {
+                System.out.println("Enter the title of the task you want to edit.");
+                titleGet = get.nextLine();
+                info.remove(titleGet);
+                System.out.println("Enter a new title: ");
+                String newTitle = newT.nextLine();
+                info.put(newTitle, toDo);
+                toDo.setTitle(newTitle);
+                System.out.println("Enter a new description: ");
+                String descGet = newD.nextLine();
+                toDo.setDescription(descGet);
+                System.out.println("Enter a new priority: ");
+                String newPri = newP.nextLine();
+                toDo.setPriority(newPri);
+                //display tasks
+            } else if (personOption == 4) {
+                System.out.println("Would you like to: (1) show full to-do list (2) view tasks by priority number");
+                int showChoice = show.nextInt();
+                if (showChoice == 1) {
+                    System.out.println(info.toString());
+                } else {
+                    System.out.println("Enter the priority number you would like to view (0-5)");
+                    int priorityView = a.nextInt();
+                    if (priorityView == 0) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else if (priorityView == 1) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else if (priorityView == 2) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else if (priorityView == 3) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else if (priorityView == 4) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else if (priorityView == 5) {
+                        System.out.println(toDo.getPriority());
+                        System.out.println(toDo.getTitle());
+                    } else {
+                        System.out.println("That is not a valid input.");
+                    }
+                }
+            } else {
+                System.out.println("That is not a valid input.");
             }
         }
     }

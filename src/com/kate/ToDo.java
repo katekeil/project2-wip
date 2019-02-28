@@ -6,9 +6,9 @@ package com.kate;
 public class ToDo {
     private String title;
     private String description;
-    private int priority;
+    private String priority;
 
-    public ToDo(String title, String description, int priority) {
+    public ToDo(String title, String description, String priority){
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -30,19 +30,18 @@ public class ToDo {
         this.description = description;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
     @Override
     public String toString() {
-        return "Todo Task" +
-                "Title: '" + title + ' ' +
-                ", Description: '" + description + ' ' +
-                ", Priority: " + priority;
+        return "The To-Do item is titled " + title + ". The description is " +
+                description + ". The priority is " + priority;
+
     }
 }
